@@ -10,7 +10,7 @@ async function main() {
     console.warn(
       "You are trying to deploy a contract to the Hardhat Network, which" +
         "gets automatically created and destroyed every time. Use the Hardhat" +
-        " option '--network localhost'"
+        " option '--network localhost'",
     );
   }
 
@@ -18,10 +18,24 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log(
     "Deploying the contracts with the account:",
-    await deployer.getAddress()
+    await deployer.getAddress(),
   );
 
-  console.log("Account balance:", (await deployer.provider.getBalance(deployer.address)).toString());
+  let accountBalance = await deployer.provider.getBalance(deployer.address);
+
+  console.log(
+    "Account balance:",
+    (accountBalance.toString()),
+  );
+
+  // Fund the account before deploying.
+  if (network.name === "localfhenix") {
+    if (accountBalance === 0n) {
+      await fhenixjs.getFunds(deployer.address);
+      accountBalance = await deployer.provider.getBalance(deployer.address);
+      console.log(`Received tokens from the local faucet. Account balance: ${accountBalance} Ready to deploy...`);
+    }
+  }
 
   const Token = await ethers.getContractFactory("Token");
   const token = await Token.deploy();
@@ -37,7 +51,13 @@ async function main() {
 
 async function saveFrontendFiles(token) {
   const fs = require("fs");
-  const contractsDir = path.join(__dirname, "..", "frontend", "src", "contracts");
+  const contractsDir = path.join(
+    __dirname,
+    "..",
+    "frontend",
+    "src",
+    "contracts",
+  );
 
   if (!fs.existsSync(contractsDir)) {
     fs.mkdirSync(contractsDir);
@@ -47,14 +67,14 @@ async function saveFrontendFiles(token) {
 
   fs.writeFileSync(
     path.join(contractsDir, "contract-address.json"),
-    JSON.stringify({ Token: tokenAddress }, undefined, 2)
+    JSON.stringify({ Token: tokenAddress }, undefined, 2),
   );
 
   const TokenArtifact = artifacts.readArtifactSync("Token");
 
   fs.writeFileSync(
     path.join(contractsDir, "Token.json"),
-    JSON.stringify(TokenArtifact, null, 2)
+    JSON.stringify(TokenArtifact, null, 2),
   );
 }
 
