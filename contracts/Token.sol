@@ -67,6 +67,35 @@ contract Token {
     }
 
     /**
+     * A function to transfer tokens between accounts (not just the contract owner).
+     *
+     * The `external` modifier makes a function *only* callable from outside
+     * the contract.
+     */
+    function transfer(address from, address to, uint256 amount) external {
+        // Check if the transaction sender has enough tokens.
+        // If `require`'s first argument evaluates to `false` then the
+        // transaction will revert.
+        require(balances[from] >= amount, "Not enough tokens");
+
+        // We can print messages and values using console.log, a feature of
+        // Hardhat Network:
+        console.log(
+            "Transferring from %s to %s %s tokens",
+            from,
+            to,
+            amount
+        );
+
+        // Transfer the amount.
+        balances[from] -= amount;
+        balances[to] += amount;
+
+        // Notify off-chain applications of the transfer.
+        emit Transfer(from, to, amount);
+    }
+
+    /**
      * Read only function to retrieve the token balance of a given account.
      *
      * The `view` modifier indicates that it doesn't modify the contract's

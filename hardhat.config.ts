@@ -44,6 +44,38 @@ const config= {
       // By default, it will take the first Hardhat account as the deployer
       default: 0,
     },
+    alice: {
+      default: 0, // account #0 is also aliased alice
+    },
+    bob: {
+      default: 1, // account index 1 in the default network localfhenix will be named bob
+    },
+    carol: {
+      default: 2,
+    },
+    dave: {
+      default: 3
+    },
+    eve: {
+      default: 4
+    },
+    fred: {
+      default: 5
+    },
+    greg: {
+      default: 6
+    },
+    hugo: {
+      default: 7
+    },
+    ian: {
+      default: 8
+    },
+    jane: {
+      default: 9
+    }
+    // defined in tests/constants.ts
+    // export const ACCOUNT_NAMES = ["alice", "bob", "carol", "dave", "eve", "fred", "greg", "hugo", "ian", "jane"];
   },
   networks: {
     // View the networks that are pre-configured.

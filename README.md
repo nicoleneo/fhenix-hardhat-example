@@ -38,8 +38,9 @@ This deploys the contracts to the configured wallet in `.env` and creates the JS
 
 Note that this template defaults to use the `localfhenix` network, which is injected into the hardhat configuration.
 
+Note: To list all accounts use `pnpm task:listTokenBalance --numaccounts 10`
 
-Run `pnpm task:listTokenBalance`
+Run `pnpm task:listTokenBalance` which returns the first 3 accounts.s
 
 ```sh
 $ pnpm task:listTokenBalance
@@ -70,7 +71,7 @@ Balance: 0.0 ETH
 Token balance: 0 MHT
 ```
 
-Account #0 was funded with 10 ETH to have enough gas to deploy the contract. It is the owner of the contract. It has Token balance: 1000000 MHT which is the `totalSupply`.
+Account #0 (alice/ deployer) was funded with 10 ETH to have enough gas to deploy the contract. It is the owner of the contract. It has Token balance: 1000000 MHT which is the `totalSupply`.
 
 ```solidity
     /**
@@ -171,6 +172,48 @@ Balance: 0.0 ETH
 Token balance: 0 MHT
 ```
 
+## Transfer between named accounts
+Account aliases are defined in `hardhat.config.ts` and in `tests/constants.ts`
+
+```ts
+export const ACCOUNT_NAMES = ["alice", "bob", "carol", "dave", "eve", "fred", "greg", "hugo", "ian", "jane"];
+```
+
+```sh
+pnpm task:transferBetweenNamedAccounts carol bob 1
+
+> fhenix-hardhat-example@1.0.0 task:transferBetweenNamedAccounts /workspaces/fhenix-hardhat-example
+> hardhat task:transferBetweenNamedAccounts "carol" "bob" "1"
+
+Transferring 1 MHT from carol (0x4605eC2552cB2433A9b4B83881dd2473C709b4e8) to bob (0x3F9CD0795CCf3bEEd6fB510A2b0db6950696ea30)
+Done!
+$ pnpm task:listTokenBalance
+
+> fhenix-hardhat-example@1.0.0 task:listTokenBalance /workspaces/fhenix-hardhat-example
+> hardhat task:listTokenBalance
+
+
+Account Details:
+================
+
+Account 0: (alice)
+Address:     0xd7702EB6Ca4C101C918f7d4eaBeDc36e36260482
+Private Key: 0x099359fa750740ba9896b779845327388549ccc87dc2ac35afdd802fa4336cb7
+Balance: 9.9952768936 ETH
+Token balance: 999990 MHT
+
+Account 1: (bob)
+Address:     0x3F9CD0795CCf3bEEd6fB510A2b0db6950696ea30
+Private Key: 0xae14717942a76b675a1a32eae485510b1c859502fb02774391a16e03c816c5f2
+Balance: 0.0 ETH
+Token balance: 2 MHT
+
+Account 2: (carol)
+Address:     0x4605eC2552cB2433A9b4B83881dd2473C709b4e8
+Private Key: 0x48dab7cf3c5d874f357c821691a6851021cdd5ddc07d97374a3debc813821546
+Balance: 0.0 ETH
+Token balance: 8 MHT
+```
 
 # Stopping localfhenix
 

@@ -21,6 +21,7 @@
     "task:getFunds": "hardhat task:getFunds",
     "task:listAccounts": "hardhat task:listAccounts",
     "task:listTokenBalance": "hardhat task:listTokenBalance",
+    "task:transferBetweenNamedAccounts": "hardhat task:transferBetweenNamedAccounts",
     "-------------------": "",
     " --- localfhenix ---": "",
     "  -------------------": "",
