@@ -19,6 +19,8 @@
     "task:addCount": "hardhat task:addCount",
     "task:getCount": "hardhat task:getCount",
     "task:getFunds": "hardhat task:getFunds",
+    "task:listAccounts": "hardhat task:listAccounts",
+    "task:listTokenBalance": "hardhat task:listTokenBalance",
     "-------------------": "",
     " --- localfhenix ---": "",
     "  -------------------": "",

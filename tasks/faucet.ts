@@ -47,5 +47,8 @@ task("task:faucet", "Sends ETH and tokens to an address")
     });
     await tx2.wait();
 
-    console.log(`Transferred 1 ETH and 100 tokens to ${receiver}`);
+    const tokenBalance = (await token.balanceOf(receiver)).toString();
+    const tokenSymbol = await token.symbol();
+
+    console.log(`Transferred 1 ETH and 100 tokens to ${receiver}. Token balance: ${tokenBalance} ${tokenSymbol}`);
   });
